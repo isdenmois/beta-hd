@@ -13,6 +13,9 @@
                     <td *ngFor="#col of columns">{{task[col.name]}}</td>
                 </tr>
             </tbody>
+            <tfoot>
+                <a class="btn btn-default" href="/assignedTickets.php">Вернуться на старую версию</a>
+            </tfoot>
         </table>
         <span *ngSwitchDefault><i class="fa fa-circle-o-notch fa-spin"></i> Loading</span>
     </div>

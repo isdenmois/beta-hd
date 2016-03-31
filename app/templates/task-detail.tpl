@@ -60,6 +60,7 @@
                 <a class="btn btn-primary">Assign</a>
                 <a class="btn btn-primary">Edit</a>
                 <a class="btn btn-danger">Close</a>
+                <a class="btn btn-default" href="/ticket.php?id={{task.id}}">Вернуться на старую версию</a>
             </div>
         </div>
         <div *ngIf="logs.length" class="row">
