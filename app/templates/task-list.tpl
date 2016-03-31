@@ -14,9 +14,9 @@
                 </tr>
             </tbody>
             <tfoot>
-                <a class="btn btn-default" href="/assignedTickets.php">Вернуться на старую версию</a>
             </tfoot>
         </table>
+        <a class="btn btn-default" href="/assignedTickets.php">Вернуться на старую версию</a>
         <span *ngSwitchDefault><i class="fa fa-circle-o-notch fa-spin"></i> Loading</span>
     </div>
 </div>
