@@ -5,17 +5,14 @@ import {Router} from "angular2/router";
 import {TaskListComponent} from "./task-list.component";
 
 
-export class AssignedComponent extends TaskListComponent  implements OnInit{
-    constructor(_router: Router, _taskListService: TaskService) {
-        super(_router, _taskListService);
-    }
-
-    /**
-     * Method implementation.
-     * On init component send request for get assigned task list.
-     */
-    ngOnInit() {
-        this._taskListService.getTaskListSlowly()
-            .then(taskList => this.taskList = taskList);
+export class AssignedComponent extends TaskListComponent{
+    constructor(_router: Router, taskListService: TaskService) {
+        super(_router, taskListService);
+        taskListService.getTaskList()
+            .subscribe(
+                taskList => this.taskList = taskList,
+                error => console.error('Error: ' + error),
+                () => console.log('Completed!')
+            );
     }
 }

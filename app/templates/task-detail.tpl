@@ -4,47 +4,47 @@
         <div *ngIf="task" class="box box-widget widget-user">
             <div class="widget-user-header bg-aqua-active">
                 <h3 class="widget-user-username">#{{task.id}}</h3>
-                <h3 class="widget-user-desc">{{task.summary}}</h3>
+                <h3 class="widget-user-desc">{{task.title}}</h3>
             </div>
 
             <div class="box-footer">
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="description-block">
-                            <h5 class="description-header">{{task.status}}</h5>
-                            <span class="description-text">Status</span>
+                            <h5 class="description-header">Status</h5>
+                            <span class="description-text">{{task.status}}</span>
                         </div>
                     </div>
                     <div class="col-sm-4">
                         <div class="description-block">
-                            <h5 class="description-header">{{task.estimated}}</h5>
-                            <span class="description-text">Estimated hours</span>
+                            <h5 class="description-header">Estimated hours</h5>
+                            <span class="description-text">{{task.est_hours}}</span>
                         </div>
                     </div>
                     <div class="col-sm-4">
                         <div class="description-block">
-                            <h5 class="description-header text-green">{{task.worked}}</h5>
-                            <span class="description-text">Worked hours</span>
+                            <h5 class="description-header">Worked hours</h5>
+                            <span class="description-text">{{task.wkd_hours}}</span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="description-block">
-                            <h5 class="description-header">{{task.owner}}</h5>
-                            <span class="description-text">Owner</span>
+                            <h5 class="description-header">Owner</h5>
+                            <span class="description-text">{{task.user_name}}</span>
                         </div>
                     </div>
                     <div class="col-sm-4">
                         <div class="description-block">
-                            <h5 class="description-header">{{task.opentime}}</h5>
-                            <span class="description-text">Open Time</span>
+                            <h5 class="description-header">Open Time</h5>
+                            <span class="description-text">{{task.otime}}</span>
                         </div>
                     </div>
                     <div class="col-sm-4">
                         <div class="description-block">
-                            <h5 class="description-header text-red">{{task.deadline}}</h5>
-                            <span class="description-text">Deadline</span>
+                            <h5 class="description-header text-red">Deadline</h5>
+                            <span class="description-text">{{task.deadline}}</span>
                         </div>
                     </div>
                 </div>
@@ -56,10 +56,11 @@
                 </div>
             </div>
             <div class="box-footer">
-                <a class="btn btn-primary">Log</a>
-                <a class="btn btn-primary">Assign</a>
-                <a class="btn btn-primary">Edit</a>
-                <a class="btn btn-danger">Close</a>
+                <a class="btn btn-primary" href="/actions/log.php?id={{task.id}}&setmode=ticket_tab_1">Log</a>
+                <a class="btn btn-primary" href="/actions/assign.php?id={{task.id}}&setmode=ticket_tab_1">Assign</a>
+                <a class="btn btn-primary" href="/actions/edit.php?id={{task.id}}&setmode=ticket_tab_1">Edit</a>
+                <a class="btn btn-primary" href="/actions/reject.php?id={{task.id}}&setmode=ticket_tab_1">Reject</a>
+                <a class="btn btn-danger" href="/actions/close.php?id={{task.id}}&setmode=ticket_tab_1">Close</a>
                 <a class="btn btn-default" href="/ticket.php?id={{task.id}}">Вернуться на старую версию</a>
             </div>
         </div>

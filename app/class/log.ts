@@ -2,7 +2,7 @@ export class Log {
     id: number;
     task: number;
     type: string;
-    time: string;
+    time: Date;
     hours: number;
     description: string;
     user: string;
