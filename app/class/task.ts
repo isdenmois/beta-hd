@@ -11,7 +11,7 @@ export class Task {
     title: string;
     type: string;
     deadline: Date;
-    details: string;
+    description: string;
     wkd_hours: number;
     est_hours: number;
     owner: string;

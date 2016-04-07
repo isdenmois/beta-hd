@@ -39,6 +39,9 @@ export class AppComponent {
     username = '';
     email = '';
     job = '';
+    hoursToday = '';
+    hoursMonth = '';
+    ticketsMonth = '';
 
     getTeamById(team_id) {
         let teams = {
@@ -48,14 +51,25 @@ export class AppComponent {
         return teams[team_id] ? teams[team_id] : team_id;
     }
 
+    getTitleFor(url) {
+        console.log('url');
+        return this.title;
+    }
+
     constructor(appService: AppService) {
         appService.getAuthDetail()
             .subscribe(
                 response => {
-                    let user_info = response.json().user_info;
+                    response = response.json();
+                    let user_info = response.user_info;
                     this.email = user_info.email;
                     this.username = `${user_info.fname} ${user_info.lname}`;
                     this.job = this.getTeamById(user_info.team_id);
+
+                    let user_stats = response.user_stats;
+                    this.hoursToday = user_stats.hours_today;
+                    this.hoursMonth = user_stats.hours_month;
+                    this.ticketsMonth = user_stats.tickets_month;
                 },
                 error => console.error('Error: ' + error),
                 () => console.log('Completed!')

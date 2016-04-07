@@ -6,8 +6,8 @@ import {TaskListComponent} from "./task-list.component";
 
 
 export class AssignedComponent extends TaskListComponent{
-    constructor(_router: Router, taskListService: TaskService) {
-        super(_router, taskListService);
+    constructor(router: Router, taskListService: TaskService) {
+        super(router, taskListService);
         taskListService.getTaskList()
             .subscribe(
                 taskList => this.taskList = taskList,

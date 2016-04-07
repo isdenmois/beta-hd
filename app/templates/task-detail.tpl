@@ -43,7 +43,7 @@
                     </div>
                     <div class="col-sm-4">
                         <div class="description-block">
-                            <h5 class="description-header text-red">Deadline</h5>
+                            <h5 class="description-header">Deadline</h5>
                             <span class="description-text">{{task.deadline}}</span>
                         </div>
                     </div>
@@ -51,19 +51,59 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <hr>
-                        <div [innerHTML]="task.details | nl2br"></div>
+                        <div [innerHTML]="task.description | nl2br"></div>
                     </div>
                 </div>
             </div>
             <div class="box-footer">
-                <a class="btn btn-primary" href="/actions/log.php?id={{task.id}}&setmode=ticket_tab_1">Log</a>
+                <a class="btn btn-primary" data-toggle="modal" data-target="#log-modal">Log</a>
                 <a class="btn btn-primary" href="/actions/assign.php?id={{task.id}}&setmode=ticket_tab_1">Assign</a>
                 <a class="btn btn-primary" href="/actions/edit.php?id={{task.id}}&setmode=ticket_tab_1">Edit</a>
                 <a class="btn btn-primary" href="/actions/reject.php?id={{task.id}}&setmode=ticket_tab_1">Reject</a>
                 <a class="btn btn-danger" href="/actions/close.php?id={{task.id}}&setmode=ticket_tab_1">Close</a>
                 <a class="btn btn-default" href="/ticket.php?id={{task.id}}">Вернуться на старую версию</a>
             </div>
+            <!-- Modals -->
+            <div class="modal fade" id="log-modal" tabindex="-1" role="dialog" aria-labelledby="logModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="logModalLabel">{{task.type}} #{{task.id}}: {{task.title}}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form name="logForm" method="post" action="/actions/log.php">
+                                <input type="hidden" name="id" value="{{task.id}}">
+                                <input type="hidden" name="actionComplete" value="1">
+                                <input type="hidden" name="setmode" value="ticket_tab_1">
+
+                                <div class="form-group">
+                                    <label>Select an Activity</label>
+                                    <select class="form-control" name="log_action">
+                                        <option>Note</option>
+                                        <option>Question</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Enter Hours Worked</label>
+                                    <input class="form-control" type="text" name="hours" value="">
+                                    <span class="help-block">Enter Hours Worked (accepts up to 2 decimal places). For example, enter "0.1" to log 5-6 minutes, "0.25" to log 15 minutes, "1" to log an hour.</span>
+                                </div>
+                                <div class="form-group">
+                                    <label>Log Entry</label>
+                                    <textarea class="form-control" name="comments" rows="10"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Log</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
         <div *ngIf="logs.length" class="row">
             <div class="col-sm-12">
                 <ul class="timeline">

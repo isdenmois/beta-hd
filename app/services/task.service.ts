@@ -27,8 +27,8 @@ export class TaskService {
     };
 
     types = {
-        '2': 'Услуга',
-        '3': 'Поддержка',
+        '2': 'Поддержка',
+        '3': 'Услуга',
         '8': 'Задача',
     };
 
@@ -72,7 +72,6 @@ export class TaskService {
         task.ctime = this.getDate(task.ctime);
         task.start_date = this.getDate(task.start_date);
         task.type = this.getTicketType(task.type_id);
-        task.details = task.description;
         task.priority = this.getPriority(task.priority);
         if (!task.user_name) {
             task.user_name = task.user_id + '';

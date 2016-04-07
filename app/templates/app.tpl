@@ -18,17 +18,17 @@
                 <li class="dropdown tasks-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-clock-o"></i>
-                        <span class="label label-info">7.3</span>
+                        <span class="label label-info">{{hoursToday}}</span>
                     </a>
                     <ul class="dropdown-menu">
                         <li>
                             <ul class="menu">
-                                <li class="header"><a>You worked <b>156.15/168</b> hours</a></li>
+                                <li class="header"><a>You worked <b>{{hoursMonth}}</b> hours</a></li>
                                 <li>
-                                    <a>7.30 hours today</a>
+                                    <a>{{hoursToday}} hours today</a>
                                 </li>
                                 <li>
-                                    <a>19 tickets closed</a>
+                                    <a>{{ticketsMonth}} tickets closed</a>
                                 </li>
                             </ul>
                         </li>
@@ -36,7 +36,7 @@
                 </li>
                 <!-- Tasks: style can be found in dropdown.less -->
                 <li>
-                    <a href="#">
+                    <a [routerLink]="['Assigned']">
                         <i class="fa fa-flag-o"></i>
                         <span class="label label-danger">9</span>
                     </a>
