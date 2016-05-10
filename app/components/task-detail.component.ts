@@ -81,7 +81,7 @@ export class TaskDetailComponent implements OnInit{
         this._taskService
             .addLogToTask(id, this.hours, this.text, this.log_action)
             .subscribe(
-                result => {    error = null;
+                result => {
                     this.hours = '';
                     this.text = '';
                     this.log_action = 'Note';
