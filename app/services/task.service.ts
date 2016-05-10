@@ -9,6 +9,8 @@ import 'rxjs/operator/delay';
 import 'rxjs/operator/mergeMap';
 import 'rxjs/operator/switchMap';
 import {Log} from "../class/log";
+import {Headers} from "angular2/http";
+import {URLSearchParams} from "angular2/http";
 
 let delay = 0;
 
@@ -173,5 +175,32 @@ export class TaskService {
         return new Promise<Task[]>(resolve =>
             setTimeout(()=>resolve(this.getTaskDetail(id)), delay)
         );
+    }
+
+    /**
+     * Send addLog request to backend.
+     * @param id
+     * @param hours
+     * @param text
+     * @param type
+     */
+    addLogToTask(id, hours, text, log_action) {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        if (this.hours) {
+
+        }
+
+        let params = new URLSearchParams();
+        params.set('tid', id);
+        params.set('hours', hours);
+        params.set('text', text);
+        params.set('log_action', log_action);
+
+        return this.http.post(
+            '/rest/?op=addLog',
+            params.toString(),
+            { headers: headers }
+        )
     }
 }

@@ -1,5 +1,6 @@
 <div class="row">
     <span *ngIf="task == null"><i class="fa fa-circle-o-notch fa-spin"></i> Loading</span>
+    <span *ngIf="error != null" class="error-message">Возникла ошибка: {{error}}</span>
     <div class="col-md-12">
         <div *ngIf="task" class="box box-widget widget-user">
             <div class="widget-user-header bg-aqua-active">
@@ -72,6 +73,9 @@
                             <h4 class="modal-title" id="logModalLabel">{{task.type}} #{{task.id}}: {{task.title}}</h4>
                         </div>
                         <div class="modal-body">
+                            <div class="error-message" *ngIf="log_error != null">
+                                Возникла ошибка: {{log_error}}
+                            </div>
                             <form name="logForm" method="post" action="/actions/log.php">
                                 <input type="hidden" name="id" value="{{task.id}}">
                                 <input type="hidden" name="actionComplete" value="1">
@@ -79,25 +83,25 @@
 
                                 <div class="form-group">
                                     <label>Select an Activity</label>
-                                    <select class="form-control" name="log_action">
-                                        <option>Note</option>
-                                        <option>Question</option>
+                                    <select class="form-control" name="log_action" [(ngModel)]="log_action">
+                                        <option value="Note">Note</option>
+                                        <option value="Question">Question</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label>Enter Hours Worked</label>
-                                    <input class="form-control" type="text" name="hours" value="">
+                                    <input class="form-control" type="text" name="hours" [(ngModel)]="hours">
                                     <span class="help-block">Enter Hours Worked (accepts up to 2 decimal places). For example, enter "0.1" to log 5-6 minutes, "0.25" to log 15 minutes, "1" to log an hour.</span>
                                 </div>
                                 <div class="form-group">
                                     <label>Log Entry</label>
-                                    <textarea class="form-control" name="comments" rows="10"></textarea>
+                                    <textarea class="form-control" name="comments" rows="10" [(ngModel)]="text"></textarea>
                                 </div>
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Log</button>
+                            <button type="button" class="btn btn-primary" (click)="logAdd()">Log</button>
                         </div>
                     </div>
                 </div>
