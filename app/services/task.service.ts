@@ -153,7 +153,7 @@ export class TaskService {
                     break;
 
                 case 'Note':
-                    log.icon = 'envelope';
+                    log.icon = 'comment-o';
                     log.color = 'blue';
                     break;
 
