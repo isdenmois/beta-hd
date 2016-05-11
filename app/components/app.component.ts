@@ -57,22 +57,5 @@ export class AppComponent {
     }
 
     constructor(appService: AppService) {
-        appService.getAuthDetail()
-            .subscribe(
-                response => {
-                    response = response.json();
-                    let user_info = response.user_info;
-                    this.email = user_info.email;
-                    this.username = `${user_info.fname} ${user_info.lname}`;
-                    this.job = this.getTeamById(user_info.team_id);
-
-                    let user_stats = response.user_stats;
-                    this.hoursToday = user_stats.hours_today;
-                    this.hoursMonth = user_stats.hours_month;
-                    this.ticketsMonth = user_stats.tickets_month;
-                },
-                error => console.error('Error: ' + error),
-                () => console.log('Completed!')
-            );
     }
 }

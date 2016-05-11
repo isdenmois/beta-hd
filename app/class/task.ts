@@ -17,4 +17,5 @@ export class Task {
     owner: string;
     otime: Date;
     ctime: Date;
+    color: string;
 }

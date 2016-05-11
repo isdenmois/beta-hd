@@ -10,8 +10,20 @@ export class AssignedComponent extends TaskListComponent{
         super(router, taskListService);
         taskListService.getTaskList()
             .subscribe(
-                taskList => this.taskList = taskList,
-                error => console.error('Error: ' + error),
+                response => {
+                    if (response.status == 'ok') {
+                        this.taskList = response.message;
+                        this.error = null;
+                    }
+                    else {
+                        this.taskList = [];
+                        this.error = response.message;
+                    }
+                },
+                error => {
+                    this.error = error;
+                    console.error('Error: ' + error)
+                },
                 () => console.log('Completed!')
             );
     }

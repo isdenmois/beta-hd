@@ -13,17 +13,18 @@ export class TaskListComponent {
     taskList: Task[] = [];
     columns = [
         {descr: 'ID',       name: 'id',       className: 'sorting'},
-        {descr: 'Project',  name: 'project_title',  className: 'sorting'},
-        {descr: 'Summary',  name: 'title',  className: 'sorting'},
+        {descr: 'Project',  name: 'project_title',  className: 'sorting hidden-xs'},
+        {descr: 'Summary',  name: 'title',  className: 'sorting hidden-xs'},
         {descr: 'Status',   name: 'status',   className: 'sorting'},
-        {descr: 'Priority', name: 'priority', className: 'sorting'},
-        {descr: 'Type',     name: 'type',     className: 'sorting'},
+        {descr: 'Priority', name: 'priority', className: 'sorting hidden-xs'},
+        {descr: 'Type',     name: 'type',     className: 'sorting hidden-xs'},
         {descr: 'Deadline', name: 'deadline', className: 'sorting'}
     ];
     sorting = {
         col: '',
         dir: 1
     };
+    error = null;
 
     constructor(
         protected _router: Router,

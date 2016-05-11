@@ -1,12 +1,35 @@
 <div class="row">
-    <span *ngIf="task == null"><i class="fa fa-circle-o-notch fa-spin"></i> Loading</span>
-    <span *ngIf="error != null" class="error-message">Возникла ошибка: {{error}}</span>
+    <span *ngIf="task == null && error == null"><i class="fa fa-circle-o-notch fa-spin"></i> Loading</span>
+    <div *ngIf="error != null" class="alert alert-danger">
+        <div class="">
+            <h4><i class="icon fa fa-ban"></i> Возникла ошибка!</h4>
+            {{error}}
+        </div>
+    </div>
     <div class="col-md-12">
         <div *ngIf="task" class="box box-widget widget-user">
             <div class="widget-user-header bg-aqua-active">
                 <h3 class="widget-user-username">#{{task.id}}</h3>
                 <h3 class="widget-user-desc">{{task.title}}</h3>
             </div>
+
+            <!-- Modals -->
+            <log-modal
+                    *ngIf="perms.log"
+                    [show]="log_show"
+                    [task_name]="task_name"
+                    [task_id]="task.id"
+                    (onClose)="logOnClose()"
+                    (onUpdate)="updateTask()"
+            ></log-modal>
+            <close-modal
+                    *ngIf="perms.close"
+                    [show]="close_modal_show"
+                    [task_name]="task_name"
+                    [task_id]="task.id"
+                    (onClose)="onCloseModalClose()"
+                    (onUpdate)="updateTask()"
+            ></close-modal>
 
             <div class="box-footer">
                 <div class="row">
@@ -57,54 +80,11 @@
                 </div>
             </div>
             <div class="box-footer">
-                <a class="btn btn-primary" data-toggle="modal" data-target="#log-modal">Log</a>
-                <a class="btn btn-primary" href="/actions/assign.php?id={{task.id}}&setmode=ticket_tab_1">Assign</a>
-                <a class="btn btn-primary" href="/actions/edit.php?id={{task.id}}&setmode=ticket_tab_1">Edit</a>
-                <a class="btn btn-primary" href="/actions/reject.php?id={{task.id}}&setmode=ticket_tab_1">Reject</a>
-                <a class="btn btn-danger" href="/actions/close.php?id={{task.id}}&setmode=ticket_tab_1">Close</a>
-                <a class="btn btn-default" href="/ticket.php?id={{task.id}}">Вернуться на старую версию</a>
-            </div>
-            <!-- Modals -->
-            <div class="modal fade" id="log-modal" tabindex="-1" role="dialog" aria-labelledby="logModalLabel">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="logModalLabel">{{task.type}} #{{task.id}}: {{task.title}}</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="error-message" *ngIf="log_error != null">
-                                Возникла ошибка: {{log_error}}
-                            </div>
-                            <form name="logForm" method="post" action="/actions/log.php">
-                                <input type="hidden" name="id" value="{{task.id}}">
-                                <input type="hidden" name="actionComplete" value="1">
-                                <input type="hidden" name="setmode" value="ticket_tab_1">
-
-                                <div class="form-group">
-                                    <label>Select an Activity</label>
-                                    <select class="form-control" name="log_action" [(ngModel)]="log_action">
-                                        <option value="Note">Note</option>
-                                        <option value="Question">Question</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Enter Hours Worked</label>
-                                    <input class="form-control" type="text" name="hours" [(ngModel)]="hours">
-                                    <span class="help-block">Enter Hours Worked (accepts up to 2 decimal places). For example, enter "0.1" to log 5-6 minutes, "0.25" to log 15 minutes, "1" to log an hour.</span>
-                                </div>
-                                <div class="form-group">
-                                    <label>Log Entry</label>
-                                    <textarea class="form-control" name="comments" rows="10" [(ngModel)]="text"></textarea>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" (click)="logAdd()">Log</button>
-                        </div>
-                    </div>
-                </div>
+                <a *ngIf="perms.log" class="btn btn-primary" (click)="onLogOpen()">Log</a>
+                <a *ngIf="perms.assign" class="btn btn-primary" href="/actions/assign.php?id={{task.id}}&setmode=ticket_tab_1">Assign</a>
+                <a *ngIf="perms.edit" class="btn btn-primary" href="/actions/edit.php?id={{task.id}}&setmode=ticket_tab_1">Edit</a>
+                <a *ngIf="perms.reject" class="btn btn-primary" href="/actions/reject.php?id={{task.id}}&setmode=ticket_tab_1">Reject</a>
+                <a *ngIf="perms.close" class="btn btn-danger" (click)="onCloseModalOpen()">Close</a>
             </div>
         </div>
 
@@ -123,7 +103,7 @@
                             <span class="time"><i class="fa fa-calendar-o"></i> {{log.time}}</span>
                             <span class="time" *ngIf="log.hours"><i class="fa fa-clock-o"></i> {{log.hours}} hours</span>
 
-                            <h3 class="timeline-header"><a href="#">{{log.user}}</a></h3>
+                            <h3 class="timeline-header"><a>{{log.user}}</a></h3>
 
                             <div class="timeline-body" [innerHTML]="log.description | nl2br"></div>
                             <div class="timeline-footer">

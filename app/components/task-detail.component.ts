@@ -4,6 +4,8 @@ import {TaskService} from '../services/task.service';
 import {Log} from '../class/log';
 import {RouteParams} from "angular2/router";
 import {NewLineToBrPipe} from "../pipes/nl2br.pipe";
+import {LogModalComponent} from "./log-modal.component";
+import {CloseModalComponent} from "./close-modal.component";
 
 function isFloat(n){
     return true;
@@ -13,19 +15,25 @@ function isFloat(n){
     selector: 'task-list',
     templateUrl: 'app/templates/task-detail.tpl',
     styles:[],
-    pipes: [NewLineToBrPipe]
+    pipes: [NewLineToBrPipe],
+    directives: [LogModalComponent, CloseModalComponent]
 })
 
 export class TaskDetailComponent implements OnInit{
     task: Task = null;
     logs: Log[] = [];
     error = null;
-    hours = '';
-    text = '';
-    log_action = 'Note';
-    log_error = null;
-    hours_valid = true;
-    text_valid = true;
+    log_show = false;
+    close_modal_show = false;
+    task_name = '';
+    perms = {
+        view: false,
+        close: false,
+        log: false,
+        edit: false,
+        reject: false,
+        assign: false
+    };
 
     constructor(
         protected _taskService: TaskService,
@@ -46,9 +54,12 @@ export class TaskDetailComponent implements OnInit{
             .getTaskDetail(id)
             .subscribe(
                 details => {
+                    const perms = details.perms || [];
                     this.error = null;
                     this.task = details.task;
                     this.logs = details.logs;
+                    this.perms = details.perms;
+                    this.task_name = details.task_name;
                 },
                 error => {
                     console.error('Error: ', error);
@@ -57,45 +68,18 @@ export class TaskDetailComponent implements OnInit{
             );
     }
 
-    logAdd() {
-        let id = +this._routeParams.get('id');
-        this.hours_valid = true;
-        this.text_valid = true;
+    onLogOpen() {
+        this.log_show = true;
+    }
+    logOnClose() {
+        this.log_show = false;
+    }
 
-        // Validate hours.
-        if (this.hours && !isFloat(this.hours)) {
-            this.log_error = 'Неправильно заполнено поле рабочих часов';
-            this.hours_valid = false;
-        }
+    onCloseModalOpen() {
+        this.close_modal_show = true;
+    }
 
-        // Validate text.
-        if (this.text.length == 0) {
-            this.log_error = this.log_error || '';
-            this.log_error += 'Поле с комментарием -- пустое';
-            this.text_valid = false;
-        }
-        if (this.hours_valid == false || this.text_valid == false) {
-            return;
-        }
-
-        this._taskService
-            .addLogToTask(id, this.hours, this.text, this.log_action)
-            .subscribe(
-                result => {
-                    this.hours = '';
-                    this.text = '';
-                    this.log_action = 'Note';
-                    this.log_error = null;
-                    this.hours_valid = true;
-                    this.text_valid = true;
-                    this.updateTask();
-                    $('#modal').modal('hide');
-                    console.log(result)
-                },
-                error => {
-                    console.error('Error: ', error);
-                    this.log_error = error;
-                }
-            )
+    onCloseModalClose() {
+        this.close_modal_show = false;
     }
 }

@@ -57,14 +57,22 @@ export class TaskService {
     getTaskList(): any {
         return this.http.get('/rest/?op=getAssignedTaskList')
             .map(response => {
-                let taskList = response.json();
+                let parsed = response.json();
+                if (parsed.status == 'ok') {
+                    let taskList = parsed.message;
 
-                let newTaskList: Task[] = [];
-                for (let i in taskList) {
-                    newTaskList.push(this.formatTask(taskList[i]));
+                    let newTaskList:Task[] = [];
+                    for (let i in taskList) {
+                        newTaskList.push(this.formatTask(taskList[i]));
+                    }
+
+                    return {
+                        status: 'ok',
+                        message: newTaskList
+                    };
                 }
 
-                return newTaskList;
+                return parsed;
             });
     }
 
@@ -75,11 +83,32 @@ export class TaskService {
         task.start_date = this.getDate(task.start_date);
         task.type = this.getTicketType(task.type_id);
         task.priority = this.getPriority(task.priority);
+        task.color = '';
+
+        if (task.status == 'CLOSED') {
+            task.color = 'bg-gray disabled';
+        }
+
         if (!task.user_name) {
             task.user_name = task.user_id + '';
         }
 
         return task;
+    }
+
+    formatTaskName(task: Task): string {
+        return`${task.type} #${task.id}: ${task.title}`;
+    }
+
+    formatPerms(perms = []) {
+        return {
+            view: perms.indexOf('view') >= 0,
+            close: perms.indexOf('close') >= 0,
+            log: perms.indexOf('log') >= 0,
+            edit: perms.indexOf('edit') >= 0,
+            reject: perms.indexOf('reject') >= 0,
+            assign: perms.indexOf('assign') >= 0
+        }
     }
 
     getLogs(logs) {
@@ -138,6 +167,21 @@ export class TaskService {
                     log.color = 'yellow';
                     break;
 
+                case 'CLOSE':
+                    log.icon = 'close';
+                    log.color = 'red';
+                    break;
+
+                case 'EDIT':
+                    log.icon = 'pencil';
+                    log.color = 'green';
+                    break;
+
+                case 'REJECTED':
+                    log.icon = 'level-up';
+                    log.color = 'red';
+                    break;
+
                 case null:
                     log.icon = 'envelope';
                     log.color = 'blue';
@@ -158,11 +202,23 @@ export class TaskService {
     getTaskDetail(id: number):any {
         return this.http.get('/rest/?op=getTaskInfo&tid=' + id)
             .map(response => {
-                let taskInfo = response.json();
-                return {
-                    logs: this.getLogs(taskInfo.logs),
-                    task: this.formatTask(taskInfo.task_info)
+                let parsed = response.json();
+                if (parsed.status = 'ok') {
+                    let taskInfo = parsed.message;
+
+                    let result = {
+                        status: 'ok',
+                        logs: this.getLogs(taskInfo.logs),
+                        task: this.formatTask(taskInfo.task_info),
+                        task_name: '',
+                        perms: this.formatPerms(taskInfo.perms)
+                    };
+                    result.task_name = this.formatTaskName(result.task);
+
+                    return result;
                 }
+
+                return parsed;
             });
     }
 
@@ -182,23 +238,52 @@ export class TaskService {
      * @param id
      * @param hours
      * @param text
-     * @param type
+     * @param log_action
      */
     addLogToTask(id, hours, text, log_action) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        if (this.hours) {
-
-        }
 
         let params = new URLSearchParams();
         params.set('tid', id);
-        params.set('hours', hours);
+        if (hours) {
+            params.set('hours', hours);
+        }
+        else {
+            params.set('hours', '0.0');
+        }
         params.set('text', text);
         params.set('log_action', log_action);
 
         return this.http.post(
             '/rest/?op=addLog',
+            params.toString(),
+            { headers: headers }
+        )
+    }
+
+    /**
+     * Close request to backend.
+     * @param id
+     * @param hours
+     * @param text
+     */
+    closeTask(id, hours, text) {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+
+        let params = new URLSearchParams();
+        params.set('tid', id);
+        if (hours) {
+            params.set('hours', hours);
+        }
+        else {
+            params.set('hours', '0.0');
+        }
+        params.set('text', text);
+
+        return this.http.post(
+            '/rest/?op=closeTask',
             params.toString(),
             { headers: headers }
         )
