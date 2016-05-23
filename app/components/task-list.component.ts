@@ -2,15 +2,22 @@ import {Component, OnInit} from 'angular2/core';
 import {Task} from '../class/task';
 import {TaskService} from '../services/task.service';
 import {Router} from 'angular2/router';
+import {TaskListFilterPipe} from "../pipes/filter-task-list.pipe";
 
 @Component({
     selector: 'task-list',
     templateUrl: 'app/templates/task-list.tpl',
-    styles:[]
+    styles:[],
+    pipes: [TaskListFilterPipe]
 })
 
 export class TaskListComponent {
     taskList: Task[] = [];
+    query = {
+        selectedStatus: null,
+        selectedProject: null,
+        selectedType: null
+    };
     columns = [
         {descr: 'ID',       name: 'id',       className: 'sorting'},
         {descr: 'Project',  name: 'project_title',  className: 'sorting hidden-xs'},
