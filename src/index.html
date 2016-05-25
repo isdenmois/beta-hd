@@ -10,12 +10,11 @@
   <meta name="description" content="<%= webpackConfig.metadata.title %>">
 
   <meta name="msapplication-TileColor" content="#00bcd4">
-  <meta name="msapplication-TileImage" content="/assets/icon/ms-icon-144x144.png">
   <meta name="theme-color" content="#00bcd4">
   <!-- end favicon -->
 
   <!-- base url -->
-  <base href="<%= webpackConfig.metadata.baseUrl %>">
+  <base href="<%= webpackConfig.metadata.ENV == 'development' ? '/' : '/beta/' %>">
 
 
 </head>

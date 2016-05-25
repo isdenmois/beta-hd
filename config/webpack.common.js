@@ -16,9 +16,8 @@ const ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin
 /*
  * Webpack Constants
  */
-var METADATA = {
-  title: 'Initlab Helpdesk',
-  baseUrl: '/'
+const METADATA = {
+  title: 'Initlab Helpdesk'
 };
 
 /*

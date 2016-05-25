@@ -26,10 +26,9 @@ const METADATA = webpackMerge(commonConfig.metadata, {
   host: HOST,
   port: PORT,
   ENV: ENV,
-  HMR: false
+  HMR: false,
+  baseUrl: '/beta'
 });
-
-METADATA.baseUrl = '/beta';
 
 module.exports = webpackMerge(commonConfig, {
 
