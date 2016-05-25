@@ -58,11 +58,53 @@ export class TaskService {
     }
 
     /**
-     * Return task list without delay.
+     * Return task list.
      * @returns {Promise<Task[]>}
      */
     getTaskList(): any {
         return this.http.get(`${serverPath}/?op=getAssignedTaskList`)
+            .map(response => {
+                let parsed = response.json();
+                if (parsed.status == 'ok') {
+                    let taskList = parsed.message;
+
+                    let newTaskList:Task[] = [];
+                    for (let i in taskList) {
+                        newTaskList.push(this.formatTask(taskList[i]));
+                    }
+
+                    return {
+                        status: 'ok',
+                        message: newTaskList
+                    };
+                }
+
+                return parsed;
+            });
+    }
+
+    /**
+     * Return task list with filters.
+     * @returns {Promise<Task[]>}
+     */
+    getFilteredTaskList(user = 1, status = 'TASK_STATUS_OPEN', project): any {
+        let params = [];
+        if (user) {
+            params.push('oid=' + user);
+        }
+        else {
+            params.push('oid=1');
+        }
+        if (status) {
+            params.push('status=' + status);
+        }
+        else {
+            params.push('status=TASK_STATUS_OPEN');
+        }
+        if (project) {
+            params.push('pid=' + project);
+        }
+        return this.http.get(`${serverPath}/?op=getFilteredTaskList&${params.join('&')}`)
             .map(response => {
                 let parsed = response.json();
                 if (parsed.status == 'ok') {
@@ -97,7 +139,6 @@ export class TaskService {
             task.color = 'bg-gray disabled';
         }
         else {
-            console.log(task.status, task.priority);
             switch (task.priority) {
                 case 'Critical':
                     task.color = 'bg-red-active';

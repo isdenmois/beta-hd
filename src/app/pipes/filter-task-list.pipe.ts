@@ -6,6 +6,7 @@ import {Pipe, PipeTransform} from "angular2/core";
 @Pipe({name: 'taskfilter'})
 export class TaskListFilterPipe implements PipeTransform {
     transform(value, args) {
+        console.log(args);
         let [ selectedStatus, selectedType ] = args;
         selectedStatus = selectedStatus == "null" ? null : selectedStatus;
         selectedType = selectedType == "null" ? null : +selectedType;

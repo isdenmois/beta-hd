@@ -6,3 +6,15 @@
 .clickable {
     cursor: pointer;
 }
+
+.skin-blue .sidebar-menu > li > a.router-link-active {
+    color: #ffffff;
+    background: #1e282c;
+    border-left-color: #3c8dbc;
+}
+
+body,
+.widget-user-username,
+.timeline-header {
+    font-family: 'Roboto' !important;
+}

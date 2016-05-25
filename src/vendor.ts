@@ -29,6 +29,8 @@ import './assets/css/styles.css';
 // Font-awesome
 import 'font-awesome/css/font-awesome.css';
 
+import 'roboto-font/css/fonts.css';
+
 Date.prototype.toString = function () {
     let day = this.getDate();
     if (day < 10) {

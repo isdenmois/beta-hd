@@ -6,6 +6,7 @@ import { TaskDetailComponent } from "./components/task-detail.component";
 import {HTTP_PROVIDERS} from "angular2/http";
 import {AppService} from "./services/app.service";
 import {AppState} from "./app.service";
+import {TicketsComponent} from "./components/tickets.component";
 
 @Component({
     selector: 'app',
@@ -24,6 +25,11 @@ import {AppState} from "./app.service";
         name: 'Assigned',
         component: AssignedComponent,
         useAsDefault: true
+    },
+    {
+        path: '/tickets',
+        name: 'Tickets',
+        component: TicketsComponent
     },
     {
         path: '/task/:id',

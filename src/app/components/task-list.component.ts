@@ -14,10 +14,13 @@ import {TaskListSorterPipe} from "../pipes/sort-table.pipe";
 
 export class TaskListComponent {
     taskList: Task[] = [];
+    fetching = true;
     query = {
         selectedStatus: 'OPEN',
         selectedProject: null,
-        selectedType: null
+        selectedType: null,
+        selectedUser: 1,
+        selectedLongStatus: 'TASK_STATUS_OPEN'
     };
     columns = [
         {descr: 'ID',       name: 'id',       className: 'sorting'},

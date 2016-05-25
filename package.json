@@ -67,6 +67,7 @@
     "font-awesome": "^4.6.3",
     "jquery": "^2.2.4",
     "normalize.css": "^4.1.1",
+    "roboto-font": "^0.1.0",
     "rxjs": "5.0.0-beta.6",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",

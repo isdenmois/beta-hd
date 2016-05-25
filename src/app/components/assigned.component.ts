@@ -15,11 +15,34 @@ import {Title} from 'angular2/platform/browser';
   providers: [Title],
   pipes: [TaskListFilterPipe, TaskListSorterPipe]
 })
-export class AssignedComponent extends TaskListComponent{
-    constructor(router: Router, taskListService: TaskService, title:Title) {
-        title.setTitle('Assigned tickets');
+export class AssignedComponent extends TaskListComponent {
+    filters = [
+        {
+            title: 'Status',
+            model: 'selectedStatus',
+            options: [
+                {value: 'null', title: 'All'},
+                {value: 'OPEN', title: 'Open'},
+                {value: 'CLOSED', title: 'Closed'}
+            ]
+        },
+        {
+            title: 'Type',
+            model: 'selectedType',
+            options: [
+                {value: 'null', title: 'All'},
+                {value: 2, title: 'Поддержка'},
+                {value: 7, title: 'Услуга'},
+                {value: 8, title: 'Задача'},
+                {value: 11, title: 'Продвижение'}
+            ]
+        }
+    ];
 
+    constructor(router: Router, taskListService: TaskService, title:Title) {
         super(router, taskListService);
+
+        title.setTitle('Assigned tickets');
         taskListService.getTaskList()
             .subscribe(
                 response => {
@@ -31,6 +54,7 @@ export class AssignedComponent extends TaskListComponent{
                         this.taskList = [];
                         this.error = response.message;
                     }
+                    this.fetching = false;
                 },
                 error => {
                     this.error = error;
@@ -38,5 +62,8 @@ export class AssignedComponent extends TaskListComponent{
                 },
                 () => console.log('Completed!')
             );
+    }
+    updateData() {
+
     }
 }
