@@ -65,18 +65,26 @@ export class TicketsComponent extends TaskListComponent {
 
         title.setTitle('Tickets');
         this.query.selectedStatus = 'null';
-        this.query.selectedLongStatus = 'TASK_STATUS_OPEN';
+        this.query.selectedLongStatus = sessionStorage.getItem('ticketsSelectedStatus') || 'TASK_STATUS_OPEN';
+        this.query.selectedUser = sessionStorage.getItem('ticketsSelectedUser') || 1;
+        this.query.selectedType = sessionStorage.getItem('ticketsSelectedType') || 'null';
         this.updateData(false, false);
     }
     updateData(type, value) {
         if (type && type == 'selectedUser') {
             this.user = value;
+            sessionStorage.setItem('ticketsSelectedUser', value);
         }
         else if (type && type == 'selectedProject') {
             this.project = value;
         }
         else if (type && type == 'selectedLongStatus') {
             this.status = value;
+            sessionStorage.setItem('ticketsSelectedStatus', value);
+        }
+        else if (type && type == 'selectedType') {
+            sessionStorage.setItem('ticketsSelectedType', value);
+            return;
         }
         else if (type) {
             return;
