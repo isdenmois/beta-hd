@@ -80,5 +80,7 @@ export class App {
     }
 
     ngOnInit() {
+        const headerHeight = (<HTMLScriptElement>document.querySelector('header')).offsetHeight;
+        (<HTMLScriptElement>document.querySelector('.content-wrapper')).style.minHeight = (window.innerHeight - headerHeight) + 'px';
     }
 }
