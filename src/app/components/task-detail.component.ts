@@ -7,6 +7,7 @@ import {TaskService} from '../services/task.service';
 import {Log} from '../class/log';
 import {RouteParams} from "angular2/router";
 import {Title} from 'angular2/platform/browser';
+import {AssignModalComponent} from "./assign-modal.components";
 
 @Component({
     selector: 'task-list',
@@ -14,7 +15,7 @@ import {Title} from 'angular2/platform/browser';
     styles:[],
     pipes: [NewLineToBrPipe],
     providers: [Title],
-    directives: [LogModalComponent, CloseModalComponent]
+    directives: [LogModalComponent, CloseModalComponent, AssignModalComponent]
 })
 
 export class TaskDetailComponent implements OnInit{
@@ -30,6 +31,11 @@ export class TaskDetailComponent implements OnInit{
         log: false,
         edit: false,
         reject: false,
+        assign: false
+    };
+    modals = {
+        log: false,
+        close: false,
         assign: false
     };
 
@@ -68,18 +74,19 @@ export class TaskDetailComponent implements OnInit{
             );
     }
 
-    onLogOpen() {
-        this.log_show = true;
-    }
-    logOnClose() {
-        this.log_show = false;
-    }
-
-    onCloseModalOpen() {
-        this.close_modal_show = true;
+    /**
+     * Open modal with selected type.
+     * @param type
+     */
+    openModal(type) {
+        this.modals[type] = true;
     }
 
-    onCloseModalClose() {
-        this.close_modal_show = false;
+    /**
+     * Close modal with selected type.
+     * @param type
+     */
+    closeModal(type) {
+        this.modals[type] = false;
     }
 }

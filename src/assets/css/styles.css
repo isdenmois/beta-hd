@@ -15,6 +15,7 @@
 
 body,
 .widget-user-username,
-.timeline-header {
+.timeline-header,
+.modal-title {
     font-family: 'Roboto' !important;
 }

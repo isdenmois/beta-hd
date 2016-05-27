@@ -10,7 +10,9 @@ import {LogModalComponent} from "./log-modal.component";
 
 @Component({
     selector: 'close-modal',
-    template: require('../templates/close-log.tpl')
+    template: require('../templates/close-log.tpl'),
+    inputs: ['show', 'task_name', 'task_id'],
+    outputs: ['onUpdate', 'onClose']
 })
 
 export class CloseModalComponent extends LogModalComponent {

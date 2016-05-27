@@ -15,20 +15,28 @@
             <!-- Modals -->
             <log-modal
                     *ngIf="perms.log"
-                    [show]="log_show"
+                    [show]="modals.log"
                     [task_name]="task_name"
                     [task_id]="task.id"
-                    (onClose)="logOnClose()"
+                    (onClose)="closeModal('log')"
                     (onUpdate)="updateTask()"
             ></log-modal>
             <close-modal
                     *ngIf="perms.close"
-                    [show]="close_modal_show"
+                    [show]="modals.close"
                     [task_name]="task_name"
                     [task_id]="task.id"
-                    (onClose)="onCloseModalClose()"
+                    (onClose)="closeModal('close')"
                     (onUpdate)="updateTask()"
             ></close-modal>
+            <assign-modal
+                    *ngIf="perms.assign"
+                    [show]="modals.assign"
+                    [task_name]="task_name"
+                    [task_id]="task.id"
+                    (onClose)="closeModal('assign')"
+                    (onUpdate)="updateTask()"
+            ></assign-modal>
 
             <div class="box-footer">
                 <div class="row">
@@ -79,11 +87,11 @@
                 </div>
             </div>
             <div class="box-footer">
-                <a *ngIf="perms.log" class="btn btn-primary" (click)="onLogOpen()">Log</a>
-                <a *ngIf="perms.assign" class="btn btn-primary" href="/actions/assign.php?id={{task.id}}&setmode=ticket_tab_1">Assign</a>
+                <a *ngIf="perms.log" class="btn btn-primary" (click)="openModal('log')">Log</a>
+                <a *ngIf="perms.assign" class="btn btn-primary" (click)="openModal('assign')">Assign</a>
                 <a *ngIf="perms.edit" class="btn btn-primary" href="/actions/edit.php?id={{task.id}}&setmode=ticket_tab_1">Edit</a>
                 <a *ngIf="perms.reject" class="btn btn-primary" href="/actions/reject.php?id={{task.id}}&setmode=ticket_tab_1">Reject</a>
-                <a *ngIf="perms.close" class="btn btn-danger" (click)="onCloseModalOpen()">Close</a>
+                <a *ngIf="perms.close" class="btn btn-danger" (click)="openModal('close')">Close</a>
             </div>
         </div>
 
@@ -92,7 +100,7 @@
                 <ul class="timeline">
 
                     <!-- timeline time label -->
-                    <li *ngFor="#log of logs" [class.time-label]="log.type == 'TIMELINE'">
+                    <li *ngFor="let log of logs" [class.time-label]="log.type == 'TIMELINE'">
                         <span class="bg-red" *ngIf="log.type == 'TIMELINE'">
                             {{log.time}}
                         </span>
