@@ -1,7 +1,4 @@
 var core_1 = require("angular2/core");
-/**
- * Filter task list with selected.
- */
 var TaskListSorterPipe = (function () {
     function TaskListSorterPipe() {
     }

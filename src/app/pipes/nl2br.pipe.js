@@ -1,9 +1,4 @@
 var core_1 = require('angular2/core');
-/*
- * Convert new line characters to br.
- * Usage:
- *   value | nl2br
- */
 var NewLineToBrPipe = (function () {
     function NewLineToBrPipe() {
     }

@@ -1,11 +1,9 @@
 var core_1 = require("angular2/core");
-/**
- * Filter task list with selected.
- */
 var TaskListFilterPipe = (function () {
     function TaskListFilterPipe() {
     }
     TaskListFilterPipe.prototype.transform = function (value, args) {
+        console.log(args);
         var selectedStatus = args[0], selectedType = args[1];
         selectedStatus = selectedStatus == "null" ? null : selectedStatus;
         selectedType = selectedType == "null" ? null : +selectedType;
