@@ -97,8 +97,6 @@
             <!-- Optionally, you can add icons to the links -->
             <li><a href="/projects.php"><i class="fa fa-file-powerpoint-o"></i> <span>Projects</span></a></li>
             <li><a [routerLink]="['Tickets']"><i class="fa fa-tasks"></i> <span>Tickets</span></a></li>
-            <li><a href="/options.php"><i class="fa fa-cog"></i> <span>Options</span></a></li>
-            <li><a href="/help/index.php"><i class="fa fa-question"></i> <span>Help</span></a></li>
         </ul>
 
         <!-- Sidebar Menu -->
@@ -116,7 +114,7 @@
 </aside>
 <div class="content-wrapper">
     <div class="content-header">
-        <h1>Assigned tickets</h1>
+        <h1>{{title}}</h1>
     </div>
     <div class="content">
         <router-outlet></router-outlet>

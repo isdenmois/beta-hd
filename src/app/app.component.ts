@@ -1,5 +1,5 @@
 import { Component } from 'angular2/core';
-import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from 'angular2/router';
+import { Router, RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from 'angular2/router';
 import { AssignedComponent } from "./components/assigned.component";
 import { TaskService } from './services/task.service';
 import { TaskDetailComponent } from "./components/task-detail.component";
@@ -63,10 +63,22 @@ export class App {
         return this.title;
     }
 
-    constructor(public appState: AppState) {
+    constructor(public appState: AppState, private router: Router) {
+        this.router.subscribe(val => {
+            switch (val) {
+                case 'assigned':
+                    this.title = 'Assigned tickets';
+                    break;
+
+                case 'tickets':
+                    this.title = 'Ticket list';
+                    break;
+                default:
+                    this.title = '';
+            }
+        });
     }
 
     ngOnInit() {
-      console.log('Initial App State', this.appState.state);
     }
 }
