@@ -43,12 +43,14 @@ export class CloseModalComponent extends LogModalComponent {
         if (this.hours_valid == false || this.text_valid == false) {
             return;
         }
+        this.fetching = true;
 
         this._taskService
             .closeTask(id, this.hours || 0.0, this.text)
             .subscribe(
                 result => {
                     const body = result.json();
+                    this.fetching = false;
 
                     if (body.status != 'ok') {
                         this.error = body.message;
@@ -78,6 +80,7 @@ export class CloseModalComponent extends LogModalComponent {
                             this.error = 'Ошибка сервера';
                         }
                     }
+                    this.fetching = false;
                 }
             )
     }

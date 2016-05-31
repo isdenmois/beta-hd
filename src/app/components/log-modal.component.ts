@@ -20,6 +20,7 @@ export class LogModalComponent {
     error = null;
     hours_valid = true;
     text_valid = true;
+    fetching = false;
 
     @Input() task_id;
     @Input() task_name;
@@ -81,6 +82,7 @@ export class LogModalComponent {
             return;
         }
 
+        this.fetching = true;
         this._taskService
             .addLogToTask(id, this.hours, this.text, this.log_action)
             .subscribe(
@@ -100,7 +102,7 @@ export class LogModalComponent {
                         this.updateTask();
                         this.closeModal();
                     }
-                    console.log(result)
+                    this.fetching = false;
                 },
                 error => {
                     console.error('Error: ', error);
@@ -110,6 +112,7 @@ export class LogModalComponent {
                     else if (error.hasOwnProperty('_body')) {
                         this.error = error.json().message;
                     }
+                    this.fetching = false;
                 }
             )
     }

@@ -1,4 +1,4 @@
-<div class="modal-dialog" role="document">
+<div class="modal-dialog" role="document" [class.loading]="fetching">
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -29,3 +29,4 @@
         </div>
     </div>
 </div>
+<span class="modal-loader" [class.loading]="fetching"><span class="modal-loader-content"> <i class="fa fa-circle-o-notch fa-spin"></i> Отправка</span></span>

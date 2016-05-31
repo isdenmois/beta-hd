@@ -31,7 +31,7 @@ import 'font-awesome/css/font-awesome.css';
 
 import 'roboto-font/css/fonts.css';
 
-Date.prototype.toString = function () {
+Date.prototype.toString = function (withTime = false) {
     let day = this.getDate();
     if (day < 10) {
         day = '0' + day;
@@ -41,6 +41,21 @@ Date.prototype.toString = function () {
         month = '0' + month;
     }
     let year = this.getFullYear();
+
+    if (withTime) {
+        let hour = this.getHours();
+        if (hour < 10) {
+            hour = '0' + hour;
+        }
+
+        let min = this.getMinutes();
+        if (min < 10) {
+            min = '0' + min;
+        }
+
+        return `${day}.${month}.${year} ${hour}:${min}`;
+    }
+
     return `${day}.${month}.${year}`;
 };
 

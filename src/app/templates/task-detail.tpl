@@ -107,7 +107,7 @@
                         <!-- timeline icon -->
                         <i class="{{log.icon ? 'fa fa-' + log.icon : ''}} bg-{{log.color}}" *ngIf="log.type != 'TIMELINE'"></i>
                         <div class="timeline-item" *ngIf="log.type != 'TIMELINE'">
-                            <span class="time"><i class="fa fa-calendar-o"></i> {{log.time}}</span>
+                            <span class="time"><i class="fa fa-calendar-o"></i> {{log.time.toString(true)}}</span>
                             <span class="time" *ngIf="log.hours"><i class="fa fa-clock-o"></i> {{log.hours}} hours</span>
 
                             <h3 class="timeline-header"><a>{{log.user}}</a></h3>
