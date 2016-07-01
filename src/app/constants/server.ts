@@ -1,1 +1,1 @@
-export const serverPath = '/rest';
+export const serverPath = '/devrest';

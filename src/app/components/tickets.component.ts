@@ -66,7 +66,7 @@ export class TicketsComponent extends TaskListComponent {
         title.setTitle('Tickets');
         this.query.selectedStatus = 'null';
         this.query.selectedLongStatus = sessionStorage.getItem('ticketsSelectedStatus') || 'TASK_STATUS_OPEN';
-        this.query.selectedUser = sessionStorage.getItem('ticketsSelectedUser') || 1;
+        this.user = this.query.selectedUser = sessionStorage.getItem('ticketsSelectedUser') || 1;
         this.query.selectedType = sessionStorage.getItem('ticketsSelectedType') || 'null';
         this.updateData(false, false);
     }
