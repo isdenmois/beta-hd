@@ -103,7 +103,7 @@
         <ul class="sidebar-menu">
             <li class="header">Tickets</li>
             <!-- Optionally, you can add icons to the links -->
-            <li><a href="/newTicket.php"><i class="fa fa-plus"></i> <span>New Ticket</span></a></li>
+            <li><a (click)="openModal('ticket')" class="clickable"><i class="fa fa-plus"></i> <span>New Ticket</span></a></li>
             <li><a [routerLink]="['Assigned']"><i class="fa fa-tasks"></i> <span>My Tickets</span></a></li>
             <li><a href="/assignedProjectTickets.php"><i class="fa fa-file-powerpoint-o"></i> <span>My Projects</span></a></li>
             <li><a href="/search.php"><i class="fa fa-search"></i> <span>Search</span></a></li>
@@ -120,3 +120,10 @@
         <router-outlet></router-outlet>
     </div>
 </div>
+
+<create-task-modal
+    [show]="modals.ticket"
+    [userList]="userList"
+    [projectList]="projectList"
+    (onClose)="closeModal('ticket')"
+></create-task-modal>

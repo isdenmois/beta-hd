@@ -7,11 +7,15 @@ import {HTTP_PROVIDERS} from "angular2/http";
 import {AppService} from "./services/app.service";
 import {AppState} from "./app.service";
 import {TicketsComponent} from "./components/tickets.component";
+import {TaskCreateModalComponent} from "./components/task-create.component";
 
 @Component({
     selector: 'app',
     template: require('./templates/app.tpl'),
-    directives: [ROUTER_DIRECTIVES],
+    directives: [
+        ROUTER_DIRECTIVES,
+        TaskCreateModalComponent
+    ],
     providers: [
         ROUTER_PROVIDERS,
         HTTP_PROVIDERS,
@@ -49,6 +53,12 @@ export class App {
     hoursToday = '';
     hoursMonth = '';
     ticketsMonth = '';
+    modals = {
+        ticket: false
+    };
+    error = '';
+    projectList = [];
+    userList = [];
 
     getTeamById(team_id) {
         let teams = {
@@ -63,7 +73,7 @@ export class App {
         return this.title;
     }
 
-    constructor(public appState: AppState, private router: Router) {
+    constructor(public appState: AppState, private router: Router, private _AppService: AppService) {
         this.router.subscribe(val => {
             switch (val) {
                 case 'assigned':
@@ -77,10 +87,40 @@ export class App {
                     this.title = '';
             }
         });
+
+        _AppService
+            .getProjectList()
+            .subscribe(
+                projectList => this.projectList = projectList,
+                error => {this.error = error; console.log('error', error)}
+            )
+
+        _AppService
+            .getUserList()
+            .subscribe(
+                userList => this.userList = userList,
+                error => {this.error = error; console.log('error', error)}
+            )
     }
 
     ngOnInit() {
         const headerHeight = (<HTMLScriptElement>document.querySelector('header')).offsetHeight;
         (<HTMLScriptElement>document.querySelector('.content-wrapper')).style.minHeight = (window.innerHeight - headerHeight) + 'px';
+    }
+
+    /**
+     * Open modal with selected type.
+     * @param type
+     */
+    openModal(type) {
+        this.modals[type] = true;
+    }
+
+    /**
+     * Close modal with selected type.
+     * @param type
+     */
+    closeModal(type) {
+        this.modals[type] = false;
     }
 }
